@@ -9,11 +9,12 @@ import { Link } from "react-router-dom";
 function Nav() {
     const [enabled, setEnabled] = useState(false);
     const [open,setOpen] = useState(false);
+
     useEffect(()=>{
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))
-        document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('dark');
         else
-        document.documentElement.classList.remove('dark');
+            document.documentElement.classList.remove('dark');
     },[]);
 
     useEffect(()=>{

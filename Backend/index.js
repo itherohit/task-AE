@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
 require('dotenv/config');
-
 const vehiclesRoutes = require("./Routes/vehicles.routes");
 
 const app = express();
@@ -15,9 +14,12 @@ mongoose
   })
   .catch(err => console.error(err));
 
+
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+
 app.use("/api/vehicles", vehiclesRoutes);
 
 app.get("*", (req, res) => {

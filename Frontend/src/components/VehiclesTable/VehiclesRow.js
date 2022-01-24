@@ -9,7 +9,10 @@ function VehiclesRow({vehicle}) {
     const [licensePlate,setLicensePlate] = useState(vehicle.LicensePlate);
     const [office,setOffice] = useState(vehicle.Office);
     const [customerName,setCustomerName] = useState(vehicle.CustomerName);
-
+    const [lat,setLat] = useState(vehicle.Status.location.lat);
+    const [lon,setLon] = useState(vehicle.Status.location.lon);
+    const [ignition,setIgnition] = useState(vehicle.Status.ignition);
+    const [speed,setSpeed] = useState(vehicle.Status.speed);
 
     const notifySuccess = (msg) => toast.success(msg, {
         position: "top-right",
@@ -36,12 +39,16 @@ function VehiclesRow({vehicle}) {
     const saveVehicle = () => {
         axios({
             method: 'PATCH',
-            url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles/` + vehicle._id,
+            url: `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles/` + vehicle._id,
             data: {
                 CustomerName: customerName,
                 DriverName: driverName,
                 LicensePlate: licensePlate,
-                Office: office
+                Office: office,
+                Lat: lat,
+                Lon: lon,
+                Ignition: ignition,
+                Speed: speed
             }
         }).then(res => {
             setEditable(false);
@@ -74,6 +81,20 @@ function VehiclesRow({vehicle}) {
                     {editable ? 
                         <input value={office} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setOffice(e.target.value)}}/> :
                         <div className="text-sm text-gray-500 text-center">{office}</div> }
+                    </div>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-500">
+                <div className="text-sm text-gray-500">
+                    {editable ? 
+                        <input value={lat} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setLat(e.target.value)}}/> :
+                        <div className="text-sm text-gray-500 text-center">{lat}</div> }
+                    </div>
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-500">
+                <div className="text-sm text-gray-500">
+                    {editable ? 
+                        <input value={lon} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setLon(e.target.value)}}/> :
+                        <div className="text-sm text-gray-500 text-center">{lon}</div> }
                     </div>
                 </td>
                 <td className="px-6 py-4">

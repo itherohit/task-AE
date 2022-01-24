@@ -11,10 +11,12 @@ function SearchVehicle({setVehicles}) {
         if(mounted){
             axios({
                 method: 'GET',
-                url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?` + searchParam + "=" + searchValue,
+                url: `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?` + searchParam + "=" + searchValue,
             }).then(res => {
                 setVehicles(res.data);
                 console.log(res.data);
+            }).catch(e => {
+                console.log(e);
             })
         }
         setMounted(true);
@@ -25,7 +27,7 @@ function SearchVehicle({setVehicles}) {
 
   return <div className='px-10 content-center'>
       <div className='flex justify-center content-center'>
-        <input type="text" className='bg-gray-200 px-2 py-1 rounded w-50' placeholder='Search' value={searchValue} onChange={(e) => {setSearchValue(e.target.value)}}/>
+        <input type="text" className='bg-gray-200 px-2 py-1 rounded w-50 dark:bg-gray-500' placeholder='Search' value={searchValue} onChange={(e) => {setSearchValue(e.target.value)}}/>
         <BiSearch className='text-gray-800 text-2xl ml-2 my-auto'/>
       </div>
       <div className='flex justify-center content-center m-5'>

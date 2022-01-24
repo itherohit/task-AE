@@ -1,20 +1,30 @@
 import React, {useState,useEffect} from 'react';
-import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
-import MarkerClusterGroup from "react-leaflet-markercluster";
+import { MapContainer, TileLayer, Marker, Tooltip, useMap } from 'react-leaflet';
 import axios from 'axios';
+import VinSearch from './VinSearch';
+import Markers from './Markers';
+
+function ChangeView({ center, zoom }) {
+    const map = useMap();
+    map.setView(center, zoom);
+    return null;
+}
 
 function Map() {
     const [vehicles, setVehicles] = useState([]);
-    const centerPosition = [20.5937, 78.9629];
-    
+    const [centerPosition,setCenter] = useState([20.5937, 78.9629]);
+    const [zoom,setZoom] = useState(5);
+
     useEffect(() => {
         let mounted = true;
         if(mounted){
             axios({
                 method: 'GET',
-                url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?count=500`
+                url: `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?count=500`
             }).then(res => {
                 setVehicles(res.data);
+            }).catch(e => {
+                console.log(e);
             })
         }
         return () => {
@@ -22,43 +32,18 @@ function Map() {
         }
     }, []);
 
-    const Markers = ({vehicles}) => {
-        let markers = vehicles.map((vehicle,index)=>{
-          return <Marker 
-                    position={[vehicle.Status.location.lat,vehicle.Status.location.lon]} key={index}>
-                    <Tooltip>
-                        <div className='px-2 py-1 w-40'>
-                            <div className='flex justify-between'>
-                                <p className='text-gray-500 font-black'>Driver</p>
-                                <p className='font-bold'>{vehicle.Driver}</p>
-                                
-                            </div>
-                            <div className='flex justify-between'>
-                                <p className='text-gray-500 font-black'>Ignition</p>
-                                <p className={vehicle.Status.ignition ? "text-green-800 font-bold" : "text-red-800 font-bold"}>{vehicle.Status.ignition ? "ON" : "OFF"}</p>
-                            </div>
-                            <div className='flex justify-between'>
-                                <p className='text-gray-500 font-black'>VIN</p>
-                                <p className='font-bold'>{vehicle.Vin}</p>
-                            </div>
-                            <div className='flex justify-between'>
-                                <p className='text-gray-500 font-black'>Speed</p>
-                                <p className='font-bold'>{vehicle.Status.speed} km/hr</p>
-                            </div>
-                        </div>
-                    </Tooltip>
-                  </Marker>
-        })
-        return <MarkerClusterGroup className="cluster">{markers}</MarkerClusterGroup>;
-    };
     return (
-        <MapContainer center={centerPosition} zoom={5} >
-            <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Markers vehicles={vehicles} />
-        </MapContainer>
+        <div>
+            <VinSearch setCenter={setCenter} setZoom={setZoom}/>
+            <MapContainer center={centerPosition} zoom={5} >
+                <ChangeView center={centerPosition} zoom={zoom} /> 
+                <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Markers vehicles={vehicles} />
+            </MapContainer>
+        </div>
     );
 }
 

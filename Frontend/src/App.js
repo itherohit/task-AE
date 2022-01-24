@@ -12,7 +12,7 @@ import { ToastContainer } from "react-toastify";
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App dark:bg-black">
         <ToastContainer style={{ zIndex: 999999 }} />
         <Nav />
         <Routes>

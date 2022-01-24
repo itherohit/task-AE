@@ -27,14 +27,15 @@ function Vehicles() {
     if(mounted && hasMore){
         axios({
             method: 'GET',
-            url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?page=${pageNumber}`
+            url: `${process.env.NODE_ENV === "development" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?page=${pageNumber}`
         }).then(res => {
-            console.log(res.data);
             if(res.data.length === 0)
               setHasMore(false);
-            setVehicles(prevVehicles => {
-              return [...prevVehicles, ...res.data]
-            })
+            else {
+              setVehicles(prevVehicles => {
+                return [...prevVehicles, ...res.data]
+              })
+            }
         }).catch(e => {
           notifyError();
         })
@@ -49,6 +50,7 @@ function Vehicles() {
       setPageNumber(pageNumber + 1);
     }
   }
+
   return <div className='flex-col justify-center dark:bg-black'>
     <SearchVehicle setVehicles={setVehicles}/>
     <VehiclesTable vehicles={vehicles}/>

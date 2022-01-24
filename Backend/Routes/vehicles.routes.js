@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/",vehiclesController.getVehicles);
 
 //Route to create Records in the Database
-router.post("/create",vehiclesController.createVehicles);
+// router.post("/create",vehiclesController.createVehicles);
 
 //PATCH Route to Modify the Vechicle Data using ID
 router.patch("/:id",vehiclesController.patchVehicles);
