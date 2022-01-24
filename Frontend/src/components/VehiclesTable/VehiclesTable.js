@@ -40,7 +40,7 @@ function VehiclesTable({vehicles}) {
                         </thead>
                         <tbody className="bg-white">
                             {vehicles.map((vehicle,index)=>{
-                                return <VehiclesRow vehicle={vehicle} key={index}/>
+                                return <VehiclesRow vehicle={vehicle} key={vehicle.Vin}/>
                             })}
                         </tbody>
                         </table>

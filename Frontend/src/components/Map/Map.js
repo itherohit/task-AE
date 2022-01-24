@@ -3,17 +3,16 @@ import { MapContainer, TileLayer, Marker, Tooltip } from 'react-leaflet';
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import axios from 'axios';
 
-
 function Map() {
     const [vehicles, setVehicles] = useState([]);
     const centerPosition = [20.5937, 78.9629];
-
+    
     useEffect(() => {
         let mounted = true;
         if(mounted){
             axios({
                 method: 'GET',
-                url: 'http://localhost:5000/api/vehicles?count=500'
+                url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?count=500`
             }).then(res => {
                 setVehicles(res.data);
             })

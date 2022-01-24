@@ -2,13 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const helmet = require("helmet");
 const cors = require("cors");
+require('dotenv/config');
 
 const vehiclesRoutes = require("./Routes/vehicles.routes");
 
 const app = express();
 
 mongoose
-  .connect("mongodb+srv://itherohit:admin@cluster0.hfpba.mongodb.net/Motorq?retryWrites=true&w=majority")
+  .connect(process.env.MONGO_DB)
   .then(() => {
     console.log("Connected to MongoDB");
   })

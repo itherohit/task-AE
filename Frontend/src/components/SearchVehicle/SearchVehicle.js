@@ -5,22 +5,23 @@ import axios from 'axios';
 function SearchVehicle({setVehicles}) {
     const [searchValue,setSearchValue] = useState("");
     const [searchParam,setSearchParam] = useState("vin");
+    const [mounted,setMounted] = useState(false);
 
     useEffect(()=>{
-        let mounted = true;
         if(mounted){
             axios({
                 method: 'GET',
-                url: 'http://localhost:5000/api/vehicles?' + searchParam + "=" + searchValue,
+                url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles?` + searchParam + "=" + searchValue,
             }).then(res => {
                 setVehicles(res.data);
                 console.log(res.data);
             })
         }
+        setMounted(true);
         return () => {
-            mounted = false;
+            setMounted(false);
         }
-    },[searchValue]);
+    },[searchValue,searchParam]);
 
   return <div className='px-10 content-center'>
       <div className='flex justify-center content-center'>

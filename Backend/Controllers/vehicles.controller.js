@@ -2,6 +2,7 @@ const { Vehicle } = require("../Models/vehicle");
 const Fakerator = require("fakerator");
 const fakerator = Fakerator();
 
+//Create Random data around India
 const createVehicles = async (req, res) => {
     const cities = ["Pune","Bangalore", "Chennai","Delhi"];
     const cars = ["Audi","Benz","Ferrari","BMW"]
@@ -28,8 +29,12 @@ const createVehicles = async (req, res) => {
     res.send("Documents Created");
 }
 
+
+//Controller To Handle GET /vehicles
 const getVehicles = async (req,res) => {
     let Count = parseInt(req.query.count || "500");
+    let page = parseInt(req.query.page || "0");
+    let limit = parseInt(req.query.limit || "50");
     let Vin = req.query.vin || "";
     let Driver = req.query.driver || "";
     let LicensePlate = req.query.licensePlate || "";
@@ -38,18 +43,24 @@ const getVehicles = async (req,res) => {
 
     let vehicles = [];
 
-    if(Vin!="")
+    if(page != 0){
+        const startIndex = (page-1)*limit;
+        vehicles = await Vehicle.find().limit(limit).skip(startIndex).exec();
+    }
+    else if(Vin!="")
       vehicles = await Vehicle.find({ Vin: {$regex : "^" + Vin } });
-    else if(LicensePlate!="")
-      vehicles = await Vehicle.find({ LicensePlate: {$regex : "^" + LicensePlate }});
     else if(Driver!="")
       vehicles = await Vehicle.find({ Driver: {$regex : "^" + Driver }});
+    else if(LicensePlate!="")
+      vehicles = await Vehicle.find({ LicensePlate: {$regex : "^" + LicensePlate }});
     else
       vehicles = await Vehicle.find().limit(Count);
     
     res.send(vehicles);
 }
 
+
+//Controller for PATCH vehicles/:id Route which updates the Vehicle
 const patchVehicles = async (req, res) => {
     const updatedoc = {
       CustomerName: req.body.CustomerName,

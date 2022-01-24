@@ -36,7 +36,7 @@ function VehiclesRow({vehicle}) {
     const saveVehicle = () => {
         axios({
             method: 'PATCH',
-            url: 'http://localhost:5000/api/vehicles/' + vehicle._id,
+            url: `${process.env.NODE_ENV === "developement" ? process.env.REACT_APP_DEV_SERVER : process.env.REACT_APP_PROD_SERVER}/api/vehicles/` + vehicle._id,
             data: {
                 CustomerName: customerName,
                 DriverName: driverName,
@@ -58,21 +58,21 @@ function VehiclesRow({vehicle}) {
                 <td className="px-6 py-4">
                     <div className="text-sm text-gray-500">
                         {editable ? 
-                        <input value={driverName} classNameName='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setDriverName(e.target.value)}}/> :
+                        <input value={driverName} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setDriverName(e.target.value)}}/> :
                         <div className="text-sm text-gray-500 text-center">{driverName}</div> }
                     </div>
                 </td>
                 <td className="px-6 py-4">
                     <div className="text-sm text-gray-500">
                     {editable ? 
-                        <input value={licensePlate} classNameName='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setLicensePlate(e.target.value)}}/> :
+                        <input value={licensePlate} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setLicensePlate(e.target.value)}}/> :
                         <div className="text-sm text-gray-500 text-center">{licensePlate}</div> }
                     </div>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">
                 <div className="text-sm text-gray-500">
                     {editable ? 
-                        <input value={office} classNameName='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setOffice(e.target.value)}}/> :
+                        <input value={office} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setOffice(e.target.value)}}/> :
                         <div className="text-sm text-gray-500 text-center">{office}</div> }
                     </div>
                 </td>
@@ -82,7 +82,7 @@ function VehiclesRow({vehicle}) {
                 <td className="px-6 py-4">
                     <div className="text-sm text-gray-500">
                     {editable ? 
-                        <input value={customerName} classNameName='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setCustomerName(e.target.value)}}/> :
+                        <input value={customerName} className='text-center bg-transparent border-b-2 border-gray-700 w-20' onChange={(e) => {setCustomerName(e.target.value)}}/> :
                         <div className="text-sm text-gray-500 text-center">{customerName}</div> }
                     </div>
                 </td>
