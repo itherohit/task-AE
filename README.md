@@ -3,6 +3,8 @@
 ### App Link - [https://motorq-c1c5e.web.app/](https://motorq-c1c5e.web.app/)
 ### API Endpoint - [https://motorq.herokuapp.com/](https://motorq.herokuapp.com/)
 
+![Dashboard](Screenshots/MapWithMarkerClusters.PNG)
+
 ## Run Project
 
 Clone the project
