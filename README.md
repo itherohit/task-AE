@@ -78,4 +78,5 @@ Web App will be available on http://localhost:3000/
 Frontend Devleoped using ReactJs and TailwindCss. <br>
 Backend Developed using MongoDB, NodeJs and Express Framework.
 
-Since I have used TailwindCss which is a inline css ClassNames will be big.
+### Since I have used TailwindCss which is a inline css ClassNames will be big.
+### Data Points are generated using Fakerator, I tried to keep them inside india but some points landed in oceans kindly dont mind.
